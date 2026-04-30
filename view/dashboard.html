@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: crimson;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2>Dashboard</h2>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        <div class="card">
+            <h3>Welcome to Dashboard 🎉</h3>
+            <p id="userInfo">Loading user info...</p>
+        </div>
+    </div>
+
+    <script>
+        // Page load hone par verify karega
+        window.onload = async () => {
+            const token = localStorage.getItem("token");
+
+            if (!token) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            try {
+                const res = await axios.get("http://localhost:8080/verify", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                if (res.data.valid) {
+                    const user = res.data.user;
+
+                    // user info show karo
+                    document.getElementById("userInfo").innerText =
+                        `Logged in as: ${user.email}`;
+                }
+
+            } catch (err) {
+                localStorage.removeItem("token");
+                window.location.href = "index.html";
+            }
+        };
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("token");
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+</html>
