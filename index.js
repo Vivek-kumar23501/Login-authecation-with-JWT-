@@ -6,7 +6,7 @@ mongoose.connect(process.env.DB);
 
 const express = require("express");
 const path = require("path");
-const { createUser, loginUser,verifyToken ,forgetPassword} = require("./controller/user.controller");
+const { createUser, loginUser,verifyToken ,} = require("./controller/user.controller");
 const cors = require("cors");
 
 const app = express();
@@ -25,7 +25,7 @@ app.use(cors({
 app.post('/signup', createUser);
 app.post('/login', loginUser);
 app.get("/verify", verifyToken);
-app.get("/forget-password",forgetPassword)
+
 
 // Server start (ALWAYS LAST)
 app.listen(process.env.PORT, () => {

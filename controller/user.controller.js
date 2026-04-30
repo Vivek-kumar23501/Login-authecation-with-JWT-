@@ -95,4 +95,4 @@ const verifyToken = (req, res) => {
 
 
 
-module.exports = { createUser, loginUser, verifyToken, forgetPassword };
+module.exports = { createUser, loginUser, verifyToken,  };
